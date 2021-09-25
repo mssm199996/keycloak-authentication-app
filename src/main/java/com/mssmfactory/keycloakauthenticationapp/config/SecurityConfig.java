@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
 
-        http//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .cors().configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(Collections.singletonList("*"));
@@ -30,6 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 }).and().csrf().disable()
                 .authorizeRequests()
                 .anyRequest().authenticated().and()
-                .oauth2Login();
+                .oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
     }
 }
